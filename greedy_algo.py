@@ -31,38 +31,44 @@ def cost(action):
     return action["cout"]
 
 
-n = len(actions_table)
-int_tab = [i for i in range(2**n)]
-binary_tab = [bin(i)[2:] for i in int_tab]
-combinations = ['0'*(n-len(k)) + k for k in binary_tab]
-
-max_cost = 500
-valid_combinations = []
-for comb in combinations:
-    comb_cost = 0
-    comb_profit = 0
-    for i in range(n):
-        if comb[i] == "1":
-            comb_cost += cost(actions_table[i])
-            comb_profit += profit(actions_table[i])
-    if comb_cost <= max_cost:
-        valid_combinations.append((comb, comb_profit))
+def total_profit(actions_table):
+    t_profit = 0
+    for action in actions_table:
+        t_profit += profit(action)
+    return t_profit
 
 
-best_combination = valid_combinations[0][0]
-max_profit = valid_combinations[0][1]
+def total_cost(actions_table):
+    t_cost = 0
+    for action in actions_table:
+        t_cost += cost(action)
+    return t_cost
 
-for comb in valid_combinations:
-    if comb[1] > max_profit:
-        max_profit = comb[1]
-        best_combination = comb[0]
 
-best_comb_list = list()
-best_comb_total_cost = list()
+def best_combination(actions_table, max_cost):
+    sorted_table = sorted(actions_table, key=cost, reverse=True)
+    t_cost = 0
+    best_comb_list = []
 
-for i in range(len(best_combination)):
-    if best_combination[i] == "1":
-        best_comb_list.append(actions_table[i]["nom"])
-        best_comb_total_cost.append(actions_table[i]["cout"])
+    for action in sorted_table:
+        if cost(action) + t_cost <= max_cost:
+            best_comb_list.append(action)
+            t_cost += cost(action)
+    return best_comb_list
 
-print(f"La meilleur combinaison est la liste de {len(best_comb_list)} actions : {best_comb_list} pour un coût total de {sum(best_comb_total_cost)} €")
+
+best_comb_list = best_combination(actions_table, 500)
+best_comb_list_names = []
+best_comb_list_costs = []
+best_comb_list_profits = []
+
+for action in best_comb_list:
+    best_comb_list_names.append(action["nom"])
+    best_comb_list_costs.append(cost(action))
+    best_comb_list_profits.append(profit(action))
+
+print(f"La meilleur combinaison est la liste de "
+      f"{len(best_comb_list)} actions : {best_comb_list_names}"
+      f" pour un coût total de {sum(best_comb_list_costs)} €"
+      f" et pour un profit total de "
+      f"{round(sum(best_comb_list_profits), 2)} €.")
