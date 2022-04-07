@@ -1,34 +1,31 @@
-actions_table = [{"nom": "Action-1", "cout": 20, "benefice": "5%"},
-                 {"nom": "Action-2", "cout": 30, "benefice": "10%"},
-                 {"nom": "Action-3", "cout": 50, "benefice": "15%"},
-                 {"nom": "Action-4", "cout": 70, "benefice": "20%"},
-                 {"nom": "Action-5", "cout": 60, "benefice": "17%"},
-                 {"nom": "Action-6", "cout": 80, "benefice": "25%"},
-                 {"nom": "Action-7", "cout": 22, "benefice": "7%"},
-                 {"nom": "Action-8", "cout": 26, "benefice": "11%"},
-                 {"nom": "Action-9", "cout": 48, "benefice": "13%"},
-                 {"nom": "Action-10", "cout": 34, "benefice": "27%"},
-                 {"nom": "Action-11", "cout": 42, "benefice": "17%"},
-                 {"nom": "Action-12", "cout": 110, "benefice": "9%"},
-                 {"nom": "Action-13", "cout": 38, "benefice": "23%"},
-                 {"nom": "Action-14", "cout": 14, "benefice": "1%"},
-                 {"nom": "Action-15", "cout": 18, "benefice": "3%"},
-                 {"nom": "Action-16", "cout": 8, "benefice": "8%"},
-                 {"nom": "Action-17", "cout": 4, "benefice": "12%"},
-                 {"nom": "Action-18", "cout": 10, "benefice": "14%"},
-                 {"nom": "Action-19", "cout": 24, "benefice": "21%"},
-                 {"nom": "Action-20", "cout": 114, "benefice": "18%"}]
+import csv
+
+
+def read_csv(csv_file):
+    content = []
+
+    with open(csv_file, newline="", encoding="utf-8-sig") as file:
+        reader = csv.reader(file)
+        next(reader, None)
+        fieldnames = ["nom", "cout", "benefice"]
+
+        for row in reader:
+            row_data = {key: value for key, value in zip(fieldnames, row)}
+            content.append(row_data)
+    return content
+
+
+actions_table = read_csv("actions.csv")
 
 
 def profit(action):
-    profit_str = action['benefice']
-    profit_int = int(profit_str[:-1])
-    profit_res = action["cout"] * profit_int/100
-    return profit_res
+    profit_int = int(action['benefice'])
+    profit_result = int(action["cout"]) * profit_int/100
+    return profit_result
 
 
 def cost(action):
-    return action["cout"]
+    return int(action["cout"])
 
 
 def total_profit(actions_table):
