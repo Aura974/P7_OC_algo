@@ -1,13 +1,13 @@
 import csv
 
 
-def read_csv(csv_file):
+def read_csv(csv_file, name, cost, profit):
     content = []
 
     with open(csv_file, newline="", encoding="utf-8-sig") as file:
         reader = csv.reader(file)
         next(reader, None)
-        fieldnames = ["nom", "cout", "benefice"]
+        fieldnames = [name, cost, profit]
 
         for row in reader:
             row_data = {key: value for key, value in zip(fieldnames, row)}
@@ -15,7 +15,7 @@ def read_csv(csv_file):
     return content
 
 
-actions_table = read_csv("actions.csv")
+actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
 
 
 def profit(action):
@@ -68,13 +68,9 @@ def brute_force_algo(table):
     return best_comb_list, best_comb_total_cost, best_comb_total_profit
 
 
-(best_comb_list,
-    best_comb_total_cost,
-    best_comb_total_profit) = brute_force_algo(actions_table)
-
-
-print(f"La meilleur combinaison est la liste de "
-      f"{len(best_comb_list)} actions : {best_comb_list}"
-      f" pour un coût total de {sum(best_comb_total_cost)} €"
-      f" et pour un profit total de "
-      f"{round(sum(best_comb_total_profit), 2)} €.")
+def display_bf_result(list, cost, profit):
+    print(f"La meilleure combinaison est la liste de "
+          f"{len(list)} actions : {list}"
+          f" pour un coût total de {sum(cost)} €"
+          f" et pour un profit total de "
+          f"{round(sum(profit), 2)} €.")
