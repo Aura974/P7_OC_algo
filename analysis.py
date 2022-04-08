@@ -4,12 +4,13 @@ import bruteforce as bf
 import optimized as opt
 import time
 
-actions_table = bf.read_csv("actions.csv", "nom", "cout", "benefice")
+actions_table = bf.read_csv("dataset1_Python+P7.csv",
+                            "nom", "cout", "benefice")
 
 bf_timings = []
 opt_timings = []
 
-for i in range(len(actions_table)):
+for i in range(20):
     sub_table = actions_table[:i]
     start_time = time.time()
     bf.brute_force_algo(sub_table)
@@ -17,7 +18,7 @@ for i in range(len(actions_table)):
     elapsed_time = end_time - start_time
     bf_timings.append(elapsed_time)
 
-for i in range(len(actions_table)):
+for i in range(20):
     sub_table = actions_table[:i]
     start_time = time.time()
     opt.optimized_algo(sub_table, 500)

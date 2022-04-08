@@ -19,13 +19,13 @@ actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
 
 
 def profit(action):
-    profit_int = int(action['benefice'])
-    profit_result = int(action["cout"]) * profit_int/100
+    profit_float = float(action['benefice'])
+    profit_result = float(action["cout"]) * profit_float/100
     return profit_result
 
 
 def cost(action):
-    return int(action["cout"])
+    return float(action["cout"])
 
 
 def brute_force_algo(table):

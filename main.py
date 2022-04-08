@@ -2,7 +2,8 @@ import bruteforce as bf
 import optimized as opt
 
 if __name__ == "__main__":
-    actions_table = bf.read_csv("actions.csv", "nom", "cout", "benefice")
+    actions_table = bf.read_csv("actions.csv",
+                                "nom", "cout", "benefice")
 
     # (best_comb_list_bf,
     #     best_comb_t_cost_bf,

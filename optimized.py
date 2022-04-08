@@ -4,13 +4,13 @@ actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
 
 
 def profit(action):
-    profit_int = int(action['benefice'])
-    profit_result = int(action["cout"]) * profit_int/100
+    profit_float = float(action['benefice'])
+    profit_result = float(action["cout"]) * profit_float/100
     return profit_result
 
 
 def cost(action):
-    return int(action["cout"])
+    return float(action["cout"])
 
 
 def total_profit(actions_table):
@@ -28,7 +28,7 @@ def total_cost(actions_table):
 
 
 def optimized_algo(actions_table, max_cost):
-    sorted_table = sorted(actions_table, key=cost, reverse=True)
+    sorted_table = sorted(actions_table, key=profit, reverse=True)
     t_cost = 0
     best_comb_list = []
     best_comb_list_names = []
@@ -36,7 +36,8 @@ def optimized_algo(actions_table, max_cost):
     best_comb_list_profits = []
 
     for action in sorted_table:
-        if cost(action) + t_cost <= max_cost:
+        if (cost(action) + t_cost <= max_cost
+                and cost(action) > 0):
             best_comb_list.append(action)
             t_cost += cost(action)
 
@@ -54,6 +55,6 @@ def optimized_algo(actions_table, max_cost):
 def display_opt_result(list, names, cost, profit):
     print(f"La meilleure combinaison est la liste de "
           f"{len(list)} actions : {names}"
-          f" pour un coût total de {sum(cost)} €"
+          f" pour un coût total de {round(sum(cost), 2)} €"
           f" et pour un profit total de "
           f"{round(sum(profit), 2)} €.")
