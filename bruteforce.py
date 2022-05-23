@@ -15,9 +15,6 @@ def read_csv(csv_file, name, cost, profit):
     return content
 
 
-actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
-
-
 def profit(action):
     profit_float = float(action['benefice'])
     profit_result = float(action["cout"]) * profit_float/100
@@ -36,6 +33,7 @@ def brute_force_algo(table):
 
     max_cost = 500
     valid_combinations = []
+    nb_of_combinations = 0
 
     for comb in combinations:
         comb_cost = 0
@@ -44,6 +42,7 @@ def brute_force_algo(table):
             if comb[i] == "1":
                 comb_cost += cost(table[i])
                 comb_profit += profit(table[i])
+                nb_of_combinations += 1
         if comb_cost <= max_cost:
             valid_combinations.append((comb, comb_profit))
 
@@ -61,11 +60,14 @@ def brute_force_algo(table):
 
     for i in range(len(best_combination)):
         if best_combination[i] == "1":
-            best_comb_list.append(actions_table[i]["nom"])
-            best_comb_total_cost.append(cost(actions_table[i]))
-            best_comb_total_profit.append(profit(actions_table[i]))
+            best_comb_list.append(table[i]["nom"])
+            best_comb_total_cost.append(cost(table[i]))
+            best_comb_total_profit.append(profit(table[i]))
 
-    return best_comb_list, best_comb_total_cost, best_comb_total_profit
+    return (best_comb_list,
+            best_comb_total_cost,
+            best_comb_total_profit,
+            nb_of_combinations)
 
 
 def display_bf_result(list, cost, profit):

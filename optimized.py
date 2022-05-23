@@ -34,12 +34,13 @@ def optimized_algo(actions_table, max_cost):
     best_comb_list_names = []
     best_comb_list_costs = []
     best_comb_list_profits = []
+    nb_of_comb = 0
 
     for action in sorted_table:
-        if (cost(action) + t_cost <= max_cost
-                and cost(action) > 0):
+        if (cost(action) + t_cost <= max_cost and cost(action) > 0):
             best_comb_list.append(action)
             t_cost += cost(action)
+            nb_of_comb += 1
 
     for action in best_comb_list:
         best_comb_list_names.append(action["nom"])
@@ -49,7 +50,8 @@ def optimized_algo(actions_table, max_cost):
     return (best_comb_list,
             best_comb_list_names,
             best_comb_list_costs,
-            best_comb_list_profits)
+            best_comb_list_profits,
+            nb_of_comb)
 
 
 def display_opt_result(list, names, cost, profit):
