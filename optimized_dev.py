@@ -1,4 +1,4 @@
-from bruteforce import read_csv
+from bruteforce_dev import read_csv
 
 actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
 
