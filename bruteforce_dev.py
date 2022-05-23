@@ -33,6 +33,7 @@ def brute_force_algo(table):
 
     max_cost = 500
     valid_combinations = []
+    nb_of_combinations = 0
 
     for comb in combinations:
         comb_cost = 0
@@ -41,6 +42,7 @@ def brute_force_algo(table):
             if comb[i] == "1":
                 comb_cost += cost(table[i])
                 comb_profit += profit(table[i])
+                nb_of_combinations += 1
         if comb_cost <= max_cost:
             valid_combinations.append((comb, comb_profit))
 
@@ -64,7 +66,8 @@ def brute_force_algo(table):
 
     return (best_comb_list,
             best_comb_total_cost,
-            best_comb_total_profit)
+            best_comb_total_profit,
+            nb_of_combinations)
 
 
 def display_bf_result(list, cost, profit):
@@ -73,14 +76,3 @@ def display_bf_result(list, cost, profit):
           f" pour un coût total de {sum(cost)} €"
           f" et pour un profit total de "
           f"{round(sum(profit), 2)} €.")
-
-
-actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
-
-(best_comb_list_bf,
-    best_comb_t_cost_bf,
-    best_comb_t_profit_bf) = brute_force_algo(actions_table)
-
-display_bf_result(best_comb_list_bf,
-                  best_comb_t_cost_bf,
-                  best_comb_t_profit_bf)

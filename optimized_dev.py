@@ -1,18 +1,6 @@
-import csv
+from bruteforce_dev import read_csv
 
-
-def read_csv(csv_file, name, cost, profit):
-    content = []
-
-    with open(csv_file, newline="", encoding="utf-8-sig") as file:
-        reader = csv.reader(file)
-        next(reader, None)
-        fieldnames = [name, cost, profit]
-
-        for row in reader:
-            row_data = {key: value for key, value in zip(fieldnames, row)}
-            content.append(row_data)
-    return content
+actions_table = read_csv("actions.csv", "nom", "cout", "benefice")
 
 
 def profit(action):
@@ -46,11 +34,13 @@ def optimized_algo(actions_table, max_cost):
     best_comb_list_names = []
     best_comb_list_costs = []
     best_comb_list_profits = []
+    nb_of_comb = 0
 
     for action in sorted_table:
         if (cost(action) + t_cost <= max_cost and cost(action) > 0):
             best_comb_list.append(action)
             t_cost += cost(action)
+            nb_of_comb += 1
 
     for action in best_comb_list:
         best_comb_list_names.append(action["nom"])
@@ -60,7 +50,8 @@ def optimized_algo(actions_table, max_cost):
     return (best_comb_list,
             best_comb_list_names,
             best_comb_list_costs,
-            best_comb_list_profits)
+            best_comb_list_profits,
+            nb_of_comb)
 
 
 def display_opt_result(list, names, cost, profit):
@@ -69,16 +60,3 @@ def display_opt_result(list, names, cost, profit):
           f" pour un coût total de {round(sum(cost), 2)} €"
           f" et pour un profit total de "
           f"{round(sum(profit), 2)} €.")
-
-
-actions_table = read_csv("dataset2_Python+P7.csv", "nom", "cout", "benefice")
-
-(best_comb_list_opt,
-    best_comb_list_names_opt,
-    best_comb_t_cost_opt,
-    best_comb_t_profit_opt) = optimized_algo(actions_table, 500)
-
-display_opt_result(best_comb_list_opt,
-                   best_comb_list_names_opt,
-                   best_comb_t_cost_opt,
-                   best_comb_t_profit_opt)
